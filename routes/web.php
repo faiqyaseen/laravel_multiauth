@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\Auth\LoginController AS AdminLoginController;
 use App\Http\Controllers\Admin\HomeController AS AdminHomeController;
 use App\Http\Controllers\User\Auth\LoginController AS UserLoginController;
+use App\Http\Controllers\User\Auth\RegisterController;
 use App\Http\Controllers\User\HomeController AS UserHomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -40,9 +41,11 @@ Route::group(['prefix' => 'admin'], function () {
 Route::group(['middleware' => 'guest'], function () {
     Route::get('login', [UserLoginController::class, 'showLoginForm'])->name('login');
     Route::post('login', [UserLoginController::class, 'login'])->name('login');
-    Route::post('logout', [UserLoginController::class, 'logout'])->name('logout');
+    Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::post('register', [RegisterController::class, 'register'])->name('register');
 });
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [UserHomeController::class, 'index'])->name('dashboard');
+    Route::post('logout', [UserLoginController::class, 'logout'])->name('logout');
 });
 
